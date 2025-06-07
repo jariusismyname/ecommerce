@@ -5,8 +5,16 @@ import Home from '../views/HomePage.vue'
 import { auth } from '../firebase'
 import AdminLogin from '../views/AdminLogin.vue'
 import ProductsStocks from '../views/ProductsStocks.vue'
+import ProductsAddToCart from '../views/ProductsAddToCart.vue'
+import InventorySales from '../views/InventorySales.vue'
 
 const routes = [
+  { path: '/products', component: ProductsAddToCart } // <-- this is the missing route
+  ,{
+    path: '/InventorySales',
+    name: 'InventorySales',
+    component: InventorySales
+  },
     { path: '/products-stocks', component: ProductsStocks },
 
     { path: '/admin-login', component: AdminLogin },

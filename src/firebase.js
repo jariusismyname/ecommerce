@@ -1,12 +1,11 @@
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from 'firebase/storage'
-
 // src/firebase.js
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBYlw-RyU36Ij7PIc0xL3dUh9pAQmD3ucI",
+  apiKey: "AIzaSyBYlw-RyU36Ij7PIc0xL3dUh9pAQmD3ucI",
   authDomain: "ecommerce-app-df590.firebaseapp.com",
   projectId: "ecommerce-app-df590",
   storageBucket: "ecommerce-app-df590.firebasestorage.app",
@@ -15,9 +14,11 @@ const firebaseConfig = {
   measurementId: "G-CRV95B76PG"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app)
-const storage = getStorage(app)
+// Initialize Firebase app only once
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-export { db ,auth,storage}
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+export { db, auth, storage };
