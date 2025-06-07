@@ -34,32 +34,36 @@
       <p v-else>No products available.</p>
 
       <!-- Cart Sidebar -->
-      <aside class="cart-sidebar" v-if="cart.length > 0">
+<aside class="cart-sidebar">
         <h3>Your Cart</h3>
-        <ul>
-          <li v-for="item in cart" :key="item.id" class="cart-item">
-            <div class="cart-product-name">{{ item.name }}</div>
-            <div>
-              <label>Quantity:</label>
-              <input
-                type="number"
-                min="1"
-                :max="getProductQuantity(item.id)"
-                v-model.number="item.quantity"
-                @change="validateQuantity(item)"
-              />
-            </div>
-            <div class="cart-product-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
-            <button class="btn delete" @click="removeFromCart(item.id)">Delete</button>
-          </li>
-        </ul>
+<ul v-if="cart.length > 0">
+  <li v-for="item in cart" :key="item.id" class="cart-item">
+    <div class="cart-product-name">{{ item.name }}</div>
+    <div>
+      <label>Quantity:</label>
+      <input
+        type="number"
+        min="1"
+        :max="getProductQuantity(item.id)"
+        v-model.number="item.quantity"
+        @change="validateQuantity(item)"
+      />
+    </div>
+    <div class="cart-product-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+    <button class="btn delete" @click="removeFromCart(item.id)">Delete</button>
+  </li>
+</ul>
+<p v-else style="text-align: center; color: #7f8c8d;">Your cart is empty.</p>
 
-        <div class="cart-footer">
-          <div class="cart-total">
-            Total: ${{ cartTotal.toFixed(2) }}
-          </div>
-          <button class="btn place-order" @click="placeOrder">Place Order</button>
-        </div>
+<div class="cart-footer">
+  <div class="cart-total">
+    Total: ${{ cartTotal.toFixed(2) }}
+  </div>
+  <button class="btn place-order" :disabled="cart.length === 0" @click="placeOrder">
+    Place Order
+  </button>
+</div>
+
       </aside>
     </div>
   </div>
@@ -223,6 +227,7 @@ h2 {
 }
 
 .product-table th {
+  background-color: #2ecc71;
   background-color: #3498db;
   color: white;
   font-weight: 600;
@@ -233,7 +238,7 @@ h2 {
 }
 
 .btn.add-cart {
-  background-color: #3498db;
+  background-color: #2ecc71; /* green header */
   color: white;
   padding: 6px 12px;
   border-radius: 6px;
@@ -243,13 +248,14 @@ h2 {
   transition: background-color 0.3s;
 }
 
-.btn.add-cart:disabled {
+.btn.place-order:disabled {
   background-color: #bdc3c7;
   cursor: not-allowed;
 }
 
+
 .btn.add-cart:hover:not(:disabled) {
-  background-color: #2980b9;
+  background-color: #2ecc71; /* green header */
 }
 
 /* Cart Sidebar */
