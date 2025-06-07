@@ -1,4 +1,5 @@
 <template>
+<button class="btn absolute-inventory" @click="goToInventory">Inventory</button>
 <button class="btn absolute-logout" @click="logout">Logout</button>
 
   <div class="container">
@@ -79,6 +80,10 @@ const quantity = ref(0)
 const price = ref(0)
 const products = ref([])
 const router = useRouter()
+const goToInventory = () => {
+  router.push({ name: 'InventorySales' })
+}
+
 
 const addProduct = async () => {
   if (!name.value || quantity.value < 0 || price.value < 0) {
@@ -341,4 +346,25 @@ ul {
     justify-content: flex-start;
   }
 }
+
+
+.absolute-inventory {
+  position: absolute;
+  top: 20px;
+  right: 120px; /* place it to the left of logout which is at 20px */
+  z-index: 999;
+  padding: 10px 16px;
+  background-color: #3498db; /* blue */
+  color: white;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.absolute-inventory:hover {
+  background-color: #2980b9;
+}
+
 </style>

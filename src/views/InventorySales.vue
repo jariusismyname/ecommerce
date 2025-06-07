@@ -1,67 +1,95 @@
 <template>
-  <div class="inventory-container">
-    <h2>Order Inventory</h2>
-    <table>
+  <div class="sales-report-container">
+    <h2>Inventory Sales Report</h2>
+
+    <table v-if="orders.length" class="sales-table">
       <thead>
         <tr>
-          <th>Order ID</th>
+          <th>Product Name</th>
+          <th>Quantity Sold</th>
+          <th>Price ($)</th>
+          <th>Total ($)</th>
           <th>Date</th>
-          <th>Items</th>
-          <th>Total</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="order in orders" :key="order.id">
-          <td>{{ order.id }}</td>
-          <td>{{ order.date }}</td>
-          <td>
-            <ul>
-              <li v-for="item in order.items" :key="item.id">
-                {{ item.name }} - Qty: {{ item.quantity }} - ₱{{ (item.price * item.quantity).toFixed(2) }}
-              </li>
-            </ul>
-          </td>
-          <td>₱{{ order.total.toFixed(2) }}</td>
+          <td>{{ order.name }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.price.toFixed(2) }}</td>
+          <td>{{ order.total.toFixed(2) }}</td>
+          <td>{{ formatDate(order.createdAt) }}</td>
         </tr>
       </tbody>
     </table>
+
+    <p v-else>No sales have been made yet.</p>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../firebase'
 
 const orders = ref([])
 
+const fetchOrders = async () => {
+  const snapshot = await getDocs(collection(db, 'orders'))
+  orders.value = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }))
+}
+
 onMounted(() => {
-  const data = localStorage.getItem('orders')
-  if (data) {
-    orders.value = JSON.parse(data)
-  }
+  fetchOrders()
 })
+
+const formatDate = (timestamp) => {
+  if (!timestamp) return 'N/A'
+  const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp)
+  return date.toLocaleString()
+}
 </script>
 
 <style scoped>
-.inventory-container {
+.sales-report-container {
   padding: 2rem;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
 }
 
-table {
+h2 {
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.sales-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 1rem;
+.sales-table th,
+.sales-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eaeaea;
   text-align: left;
 }
 
-thead {
-  background-color: #3498db;
+.sales-table th {
+  background-color: #2ecc71;
   color: white;
+  font-weight: 600;
+}
+
+.sales-table tbody tr:hover {
+  background-color: #f0f8f4;
 }
 </style>
