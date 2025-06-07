@@ -3,8 +3,13 @@ import Login from '../views/UserLogin.vue'
 import Register from '../views/UserRegister.vue'
 import Home from '../views/HomePage.vue'
 import { auth } from '../firebase'
+import AdminLogin from '../views/AdminLogin.vue'
+import ProductsStocks from '../views/ProductsStocks.vue'
 
 const routes = [
+    { path: '/products-stocks', component: ProductsStocks },
+
+    { path: '/admin-login', component: AdminLogin },
   { path: '/', redirect: '/login' },
   { path: '/login', component: Login },
   { path: '/register', component: Register },
