@@ -1,4 +1,6 @@
 <template>
+<button class="btn absolute-logout" @click="logout">Logout</button>
+
   <div class="container">
     <!-- Left: Form -->
     <section class="form-section">
@@ -26,7 +28,6 @@
       />
 
       <button class="btn primary" @click="addProduct">Add Product</button>
-      <button class="btn logout" @click="logout">Logout</button>
     </section>
 
     <!-- Right: Product List -->
@@ -131,6 +132,26 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Logout Button Positioned Top-Right */
+.absolute-logout {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  padding: 10px 16px;
+  background-color: #e74c3c;
+  color: white;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.absolute-logout:hover {
+  background-color: #c0392b;
+}
+
 /* Container and Layout */
 .container {
   display: flex;
