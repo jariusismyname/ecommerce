@@ -15,19 +15,20 @@
         </thead>
         <tbody>
           <tr v-for="product in products" :key="product.id">
-            <td>{{ product.name }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{{ product.price.toFixed(2) }}</td>
-            <td>
-              <button
-                class="btn add-cart"
-                :disabled="product.quantity === 0"
-                @click="addToCart(product)"
-              >
-                Add to Cart
-              </button>
-            </td>
-          </tr>
+  <td data-label="Name">{{ product.name }}</td>
+  <td data-label="Quantity Available">{{ product.quantity }}</td>
+  <td data-label="Price ($)">{{ product.price.toFixed(2) }}</td>
+  <td data-label="Add to Cart">
+    <button
+      class="btn add-cart"
+      :disabled="product.quantity === 0"
+      @click="addToCart(product)"
+    >
+      Add to Cart
+    </button>
+  </td>
+</tr>
+
         </tbody>
       </table>
 
@@ -189,6 +190,63 @@ const placeOrder = async () => {
 
 
 <style scoped>
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .product-table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  .product-table thead {
+    display: none;
+  }
+
+  .product-table tbody tr {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+
+  .product-table td {
+    padding: 0.5rem 0;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .product-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+    min-width: 120px;
+  }
+
+  .cart-product-name,
+  .cart-product-price,
+  .cart-item input[type="number"] {
+    width: 100%;
+  }
+
+  .btn.place-order {
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  .btn.add-cart {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+}
+
 .product-display-container {
   padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

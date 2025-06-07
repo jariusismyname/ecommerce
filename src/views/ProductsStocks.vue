@@ -137,6 +137,16 @@ onMounted(() => {
 </script>
 
 <style scoped>
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;  /* centers horizontally */
+  align-items: center;      /* centers vertically */
+  background: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 /* Logout Button Positioned Top-Right */
 .absolute-logout {
   position: absolute;
